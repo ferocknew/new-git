@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>菜单</title>
+		<link href="../../../css/reset.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="easyui-accordion" data-options="fit:true,border:1">
+			<div title="全局" style="padding:5px;overflow:auto;" data-options="selected:true">
+				<ul>
+					<li>
+						<a href="main.php?act=admin_set&st=cms_config" target="main-frame" class="easyui-linkbutton" data-options="plain:true">站点设置</a>
+					</li>
+				</ul>
+			</div>
+			<div title="内容" style="padding:5px;">
+				<p>
+					文章管理
+				</p>
+			</div>
+			<div title="用户" style="padding:5px" data-options="selected:true">
+				<p>
+					用户管理
+				</p>
+			</div>
+		</div>
+	</body>
+	<link href="../../../js/jquery.easyui/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+	<link href="../../../js/jquery.easyui/themes/icon.css" rel="stylesheet" type="text/css" />
+	{insert_scripts files="../../js/jquery.min.js"}
+	{insert_scripts files="../../js/jquery.easyui/jquery.easyui.min.js"}
+	{insert_scripts files="../../js/jquery.easyui/locale/easyui-lang-zh_CN.js"}
+	{literal}
+	<script type="text/javascript">
+		$(function() {
+			$("a[href='#']").attr("href", "javascript:;");
+		})
+	</script>
+	{/literal}
+</html>

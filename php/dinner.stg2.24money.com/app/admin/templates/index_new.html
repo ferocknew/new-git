@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title></title>
+	</head>
+	<body class="easyui-layout">
+		<!-- div data-options="region:'north',split:true" title="North Title" style="height:100px;padding:10px;">
+		<p>The north content.</p>
+		</div -->
+		<!-- div data-options="region:'south',split:true" title="South Title" style="height:100px;padding:10px;background:#efefef;">
+		<div class="easyui-layout" data-options="fit:true" style="background:#ccc;">
+		<div data-options="region:'center'">sub center</div>
+		<div data-options="region:'east',split:true" style="width:200px;">sub center</div>
+		</div>
+		</div -->
+		<!-- div data-options="region:'east',iconCls:'icon-reload',split:true" title="Tree Menu" style="width:180px;">
+		<ul class="easyui-tree" data-options="url:'tree_data.json'"></ul>
+		</div -->
+		<div data-options="region:'west',split:true" title="菜单" style="width:180px;padding1:1px;overflow:hidden;">
+			<div class="easyui-accordion" data-options="fit:true,border:false">
+				<div title="全局"  data-options="selected:true" style="padding:10px;overflow:auto;">
+					<a href="#" class="easyui-linkbutton" data-options="plain:true">站点设置</a>
+				</div>
+				<div title="内容" style="padding:10px;">
+					content2
+				</div>
+				<div title="用户" style="padding:10px">
+					content3
+				</div>
+			</div>
+		</div>
+		<div data-options="region:'center'" style="overflow:hidden;">
+			<div class="easyui-tabs" data-options="fit:true,border:false">
+				<div title="后台首页"data-options="closable:true" style="padding:20px;overflow:hidden;">
+					<div style="margin-top:20px;">
+						后台首页
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<link href="../../../js/jquery.easyui/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+	<link href="../../../js/jquery.easyui/themes/icon.css" rel="stylesheet" type="text/css" />
+	{insert_scripts files="../../js/jquery.min.js"}
+	{insert_scripts files="../../js/jquery.easyui/jquery.easyui.min.js"}
+	{insert_scripts files="../../js/jquery.easyui/locale/easyui-lang-zh_CN.js"}
+	{literal}
+	<script>
+		$(function() {
+			$("a[href='#']").attr("href", "javascript:;");
+		});
+	</script>
+	{/literal}
+</html>
