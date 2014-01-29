@@ -1,0 +1,57 @@
+{include file="admin/public/page_head.html"}
+<div class="easyui-tabs" data-options="fit:true,border:false">
+	<div title="{$html_title}" style="padding:20px;overflow:auto;">
+		<div style="margin-top:5px;">
+			<form method="post" action="?at=admin&st=getfood_action" id="websit_config">
+				<div id="stypestate" style="">
+					<h2 class="h1">{$top_1_title}</h2>
+					<div class="admin_table mb10">
+						<table width="100%" cellspacing="0" cellpadding="0">
+							<tr class="tr1 vt">
+								<td class="td1">今日点餐起止时间</td>
+								<td id="bbsifopen" class="td2">
+								<ul style="float:none;width:200px;" class="list_A cc">
+									<li class="current">
+										15:00 ~ 16:00
+									</li>
+								</ul></td>
+								<td class="td2">
+								<div class="help_a" style="display: block;">
+									..
+								</div></td>
+							</tr>
+							<tr class="tr1 vt">
+								<td class="td1">点餐选择</td>
+								<td class="td2">
+									<select class="easyui-combobox" name="state" style="width:200px;" data-options="panelHeight: 'auto'">
+										<option value="0">请选择...</option>
+									</select>
+								</td>
+								<td class="td2">
+								<div class="help_a" style="display: block;">
+									...
+								</div></td>
+							</tr>
+						</table>
+					</div>
+					<div class="tac mb10">
+						<span class="btn" id="submit"><span> <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'">递交</a> </span></span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{literal}
+<script type="text/javascript">
+	$(function() {
+		$("a", $("#submit")).click(function() {
+			var _o = $(this).linkbutton('options');
+			if (!_o.disabled) {
+				$("#websit_config").submit();
+			}
+		})
+	})
+</script>
+{/literal}
+{include file="admin/public/page_foot.html"}

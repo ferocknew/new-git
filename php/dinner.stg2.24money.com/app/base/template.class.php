@@ -182,17 +182,16 @@ class base_template {
 			static_base::make_dir($this -> compile_dir);
 		}
 
-		$replaceStr = ROOT_PATH . '/' . SMARTY_TEMPLATE_DIR . '/';
-
-		echo $replaceStr;
-		exit ;
-
+		$replaceStr = APP_PATH . SMARTY_TEMPLATE_DIR;
 		$baseName = str_replace($replaceStr, '', $filename);
 		$filePath = explode('/', $baseName);
+
 		$i = 0;
 		unset($filePath[count($filePath) - 1]);
 		$mkDirPath = implode("/", $filePath);
-		framework_static_base::make_dir($this -> compile_dir . '/' . $mkDirPath);
+		$mkDirPath_1 = $this -> compile_dir . '/' . $mkDirPath;
+		if (!is_dir($mkDirPath_1))
+			static_base::make_dir($mkDirPath_1);
 		// $name = $this -> compile_dir . '/' . basename($filename) . '.php';
 		$baseName = $mkDirPath . '/' . basename($filename);
 		$name = $this -> compile_dir . '/' . $baseName . '.php';		if ($this -> _expires) {

@@ -4,6 +4,25 @@
  */
 class static_function {
 	private static $numLength = 14;
+
+	public static function arr_add_top($arr = array(), $keyName = '', $value = '') {
+		$tmpArr = array();
+		if (empty($arr))
+			return false;
+		if (empty($keyName))
+			return false;
+
+		$tmpArr = $arr;
+		array_unshift($tmpArr, array(
+			'id' => 0,
+			$keyName => '请选择...',
+			'selected' => 1
+		));
+
+		return $tmpArr;
+
+	}
+
 	/**
 	 * 远程获取文件
 	 */
@@ -61,7 +80,10 @@ class static_function {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); ;
 			curl_setopt($ch, CURLOPT_CAINFO, $cert);
 		}
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json', 'Content-Length: ' . strlen($para)));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type:application/json',
+			'Content-Length: ' . strlen($para)
+		));
 		$result = curl_exec($ch);
 		curl_close($ch);
 		if (!empty($result)) {
@@ -75,8 +97,8 @@ class static_function {
 	 * 获取page URL
 	 */
 	public static function curPageURL() {
-		if (SERVER_GET_IP)
-			$_SERVER["SERVER_NAME"] = isset($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["SERVER_NAME"];
+		// if (SERVER_GET_IP)
+		// $_SERVER["SERVER_NAME"] = isset($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : $_SERVER["SERVER_NAME"];
 		$pageURL = 'http';
 
 		if (isset($_SERVER["HTTPS"])) {
@@ -173,7 +195,11 @@ class static_function {
 	public static function log_to_db($logName, $logStr = '', $logErrCode = '0000') {
 		$logName .= '_log';
 		$m = framework_base_mongodb::connect();
-		$insertArr = array("log_time" => date('Y-m-d H:i:s'), 'log_str' => $logStr, 'log_err_code' => $logErrCode);
+		$insertArr = array(
+			"log_time" => date('Y-m-d H:i:s'),
+			'log_str' => $logStr,
+			'log_err_code' => $logErrCode
+		);
 		$m -> insert($logName, $insertArr);
 	}
 
@@ -191,7 +217,7 @@ class static_function {
 	 * @return   string
 	 *
 	 */
-	public static function output_json($array, $num = true, $jsonHeader = true) {
+	public static function output_json($array, $num = 0, $jsonHeader = true) {
 		header("Expires: Mon, 26 Jul 1970 01:00:00 GMT");
 		$jsonHeader && header('Content-type: application/json;charset=utf-8');
 		header("Pramga: no-cache");
@@ -255,11 +281,18 @@ class static_function {
 		error_log($logs, 3, $file);
 	}
 
-	public static function history_back($msg = '') {
+	public static function history_back($msg = '', $url = '') {
 		if ($msg) {
 			$msg = "alert('" . $msg . "');";
 		}
-		echo "<script>" . $msg . "history.back(-1);</script>";
+		echo '<meta charset="UTF-8" />';
+		echo "<script>" . $msg;
+		if (empty($url))
+			echo "history.back(-1);";
+		else {
+			echo "window.location.href='" . $url . "';";
+		}
+		echo "</script>";
 		die ;
 	}
 
@@ -564,12 +597,39 @@ class static_function {
 	}
 
 	public static function escapeStr($string) {
-		$string = str_replace(array("\0", "%00", "\r", 'exec'), '', $string);
+		$string = str_replace(array(
+			"\0",
+			"%00",
+			"\r",
+			'exec'
+		), '', $string);
 		//modified@2010-7-5
-		$string = preg_replace(array('/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/', '/&(?!(#[0-9]+|[a-z]+);)/is'), array('', '&amp;'), $string);
-		$string = str_replace(array("%3C", '<'), '&lt;', $string);
-		$string = str_replace(array("%3E", '>'), '&gt;', $string);
-		$string = str_replace(array('"', "'", "\t", '  '), array('&quot;', '&#39;', '    ', '&nbsp;&nbsp;'), $string);
+		$string = preg_replace(array(
+			'/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/',
+			'/&(?!(#[0-9]+|[a-z]+);)/is'
+		), array(
+			'',
+			'&amp;'
+		), $string);
+		$string = str_replace(array(
+			"%3C",
+			'<'
+		), '&lt;', $string);
+		$string = str_replace(array(
+			"%3E",
+			'>'
+		), '&gt;', $string);
+		$string = str_replace(array(
+			'"',
+			"'",
+			"\t",
+			'  '
+		), array(
+			'&quot;',
+			'&#39;',
+			'    ',
+			'&nbsp;&nbsp;'
+		), $string);
 		return self::sqlEscape($string);
 	}
 

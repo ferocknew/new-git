@@ -39,7 +39,8 @@ class base_pdomysql {
 				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 				PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $this -> DbCharset,
 				PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => TRUE,
-				PDO::ATTR_AUTOCOMMIT => TRUE
+				PDO::ATTR_AUTOCOMMIT => TRUE,
+				PDO::ATTR_EMULATE_PREPARES => FALSE
 			));
 			$this -> connected[$arrStr] = TRUE;
 		} catch ( Exception $e ) {

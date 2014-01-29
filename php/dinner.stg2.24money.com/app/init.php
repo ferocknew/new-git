@@ -15,8 +15,8 @@ include APP_PATH . 'base/autoload.class.php';
 base_autoloader::init();
 // 挂载常量文件
 include APP_PATH . 'inc_constant.php';
-// $url = defined('ADMIN_DIR') ? str_replace(ADMIN_DIR . "/", "", static_function::curURL()) : static_function::curURL();
-// define('ROOT_URL', $url);
+$url = defined('ADMIN_DIR') ? str_replace(ADMIN_DIR . "/", "", static_function::curURL()) : static_function::curURL();
+define('ROOT_URL', $url);
 
 // 处理'引号
 if (!get_magic_quotes_gpc()) {
@@ -31,8 +31,12 @@ $compiled = APP_PATH . SMARTY_COMPILED_DIR;
 if (!is_dir($compiled))
 	static_function::mkdirs($compiled);
 
+include APP_PATH . 'inc_smarty.php';
 base_staticobj::smarty() -> template_dir = $templates;
 base_staticobj::smarty() -> compile_dir = $compiled;
+base_staticobj::smarty() -> assign('JS_VERSION', CDN_JS_VERSION);
+base_staticobj::smarty() -> assign('CSS_VERSION', CDN_CSS_VERSION);
+base_staticobj::smarty() -> assign('CDN_URL', CDN_URL);
 // base_staticobj::smarty() -> assign('root_url', ROOT_URL);
 
 if (SESSION_OPEN)

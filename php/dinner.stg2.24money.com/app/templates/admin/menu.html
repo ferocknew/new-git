@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>菜单</title>
+		<link href="{$CDN_URL}css/reset.css?{$CSS_VERSION}" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body>
+		<div class="easyui-accordion" data-options="fit:true,border:1">
+			<div title="全局" style="padding:5px;overflow:auto;" data-options="selected:true">
+				<ul>
+					<li>
+						<a href="./index.php?at=admin&st=rightindex" target="main-frame" class="easyui-linkbutton" data-options="plain:true">我要点餐</a>
+					</li>
+				</ul>
+			</div>
+			<!-- div title="内容" style="padding:5px;">
+				<p>
+					文章管理
+				</p>
+			</div -->
+			<div title="用户" style="padding:5px" data-options="selected:true">
+				<ul>
+					<li>
+						<a href="./index.php?at=admin&st=userlist" target="main-frame" class="easyui-linkbutton" data-options="plain:true">用户列表</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<link href="{$CDN_URL}js/easyui/themes/metro/easyui.css?{$CSS_VERSION}" rel="stylesheet" type="text/css" />
+	<link href="{$CDN_URL}js/easyui/themes/icon.css?{$CSS_VERSION}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="{$CDN_URL}js/jquery.min.2.0.js?{$JS_VERSION}"></script>
+	<script type="text/javascript" src="{$CDN_URL}js/easyui/jquery.easyui.min.js?{$JS_VERSION}"></script>
+	<script type="text/javascript" src="{$CDN_URL}js/easyui/locale/easyui-lang-zh_CN.js?{$JS_VERSION}"></script>
+</html>

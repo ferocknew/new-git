@@ -26,6 +26,7 @@ class base_session {
 	private $session_data = NULL;
 
 	function __construct(&$db, $session_table, $session_data_table, $session_name = 'ECS_ID', $session_id = '') {
+		echo 123;
 		$this -> cls_session($db, $session_table, $session_data_table, $session_name, $session_id);
 	}
 
@@ -56,7 +57,7 @@ class base_session {
 
 		$this -> db = &$db;
 		$this -> _ip = static_base::real_ip();
-
+		
 		if ($session_id == '' && !empty($_COOKIE[$this -> session_name])) {
 			$this -> session_id = $_COOKIE[$this -> session_name];
 		} else {
@@ -209,7 +210,6 @@ class base_session {
 		$this -> _time = date('Y-m-d H:i:s');
 		if (isset($data{SESSION_DATA_LENGTH})) {
 			/*
-			 * 在这里是要插入到session_data表中，如果表中已经有数据则是更新，没有则插入新数据
 			 */
 			//        	$sesstemp = array(
 			//	            'sesskey'       => $this->session_id,
@@ -341,6 +341,8 @@ class base_session {
 		self::$nowTime = time();
 		self::$userIP = static_base::real_ip();
 		$arr = $_COOKIE;
+		// var_dump($_COOKIE);
+		// var_dump($arr[SESSION_NAME]);
 
 		if (is_null(self::$sessionID) && empty($arr[SESSION_NAME])) {
 			self::$sessionID = function_exists('com_create_guid') ? md5(self::$userIP . com_create_guid()) : md5(self::$userIP . uniqid(mt_rand(), true));
@@ -392,7 +394,7 @@ class base_session {
 			case "memcache" :
 				$cacheName = MEMCACHE_ROOT . SESSION_MEM_TABLE_NAME . self::$sessionID;
 				$cacheValue = self::$memcache -> get($cacheName);
-				// var_dump($cacheName);
+				// var_dump($cacheValue);
 				// exit;				if ($cacheValue != FALSE)
 					$GLOBALS['_SESSION'] = json_decode($cacheValue, 1);
 				self::$sessionDataTemp = md5(json_encode($GLOBALS['_SESSION']));
@@ -402,7 +404,7 @@ class base_session {
 	}
 
 	private static function update_redis_session() {
-		if (!empty($GLOBALS['_SESSION']) || self::$sessionDataTemp != md5(json_encode($GLOBALS['_SESSION']))) {
+		if (!empty($GLOBALS['_SESSION'])) {
 			$isChange = 0;
 			if (self::$sessionDataTemp != md5(json_encode($GLOBALS['_SESSION'])))
 				$isChange = 1;
@@ -429,6 +431,8 @@ class base_session {
 					break;
 			}
 
+		}else{
+			$return = self::$memcache -> delete(MEMCACHE_ROOT . SESSION_MEM_TABLE_NAME . self::$sessionID);
 		}
 	}
 
@@ -438,6 +442,7 @@ class base_session {
 		if ($ip == '') {
 			$ip = substr(self::$userIP, 0, strrpos(self::$userIP, '.'));
 		}
+		
 		return sprintf('%08x', crc32(ROOT_PATH . $ip . $session_id));
 	}
 
@@ -472,5 +477,3 @@ class base_session {
 	}
 
 }
-?>
-
