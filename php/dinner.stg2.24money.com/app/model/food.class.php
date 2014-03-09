@@ -1,18 +1,24 @@
 <?php
-class model_user extends base_model {
+class model_food extends base_model {
 	protected static $own;
 	/**
 	 * 获得用户组列表，返回数组
 	 */
-	public static function add_user($modelData) {
+	public static function add_food($modelData) {
 		self::main();
-		return self::$own -> add_user_action($modelData);
+		return self::$own -> add_food_action($modelData);
 	}
 
-	private function add_user_action($modelData) {
+	public static function main() {
+		if (self::$own == NULL)
+			self::$own = new self;
+		return self::$own;
+	}
+
+	private function add_food_action($modelData) {
 		$sql = "
-		insert into user_list
-		(user_name,user_password,user_full_name,user_group_id,raw_add_time) values (:user_name,:user_password,:user_full_name,:user_group_id,now())
+		insert into `cook_list`
+		(cook_name,cook_price,restaurant_id,restaurant_name,raw_add_time) values (:cook_name,:cook_price,:restaurant_id,:restaurant_name,now())
 		";
 
 		$rs = self::$db -> prepare($sql);
@@ -26,28 +32,6 @@ class model_user extends base_model {
 			return FALSE;
 		}
 
-		return $return;
-	}
-
-	public static function check_login($user_name, $user_password) {
-		self::main();
-		return self::$own -> check_login_action($user_name, $user_password);
-	}
-
-	private function check_login_action($user_name, $user_password) {
-		$sql = '
-		select user_name,id as user_id from user_list
-		where user_name=:user_name and user_password=:user_password
-		';
-
-		$user_password = sha1($user_password);
-		$rs = self::$db -> prepare($sql);
-		$rs -> execute(array(
-			'user_name' => $user_name,
-			'user_password' => $user_password
-		));
-
-		$return = $rs -> fetch();
 		return $return;
 	}
 
@@ -80,21 +64,11 @@ class model_user extends base_model {
 
 	private function get_info_action($modelData) {
 		$sql = "
-		SELECT
-			u.user_name,
-			u.user_group_id AS user_group,
-			u.user_group_id,
-			u.user_full_name,
-			g.user_group_title
-		FROM
-			user_list u
-		LEFT JOIN user_group g ON g.id = u.user_group_id
-		WHERE
-			u.id =:id
+		select cook_name,cook_price,restaurant_id,restaurant_name from cook_list where id=:id
 		";
 
 		$rs = self::$db -> prepare($sql);
-		$return = $rs -> execute(array('id' => $modelData['user_id']));
+		$return = $rs -> execute(array('id' => $modelData['cook_id']));
 		$data = $rs -> fetch();
 
 		return $data;
@@ -109,14 +83,13 @@ class model_user extends base_model {
 		$sql = "
 		SELECT
 			u.id,
-			u.user_name,
+			u.cook_name,
 			u.raw_add_time,
-			u.user_full_name,
-			g.user_group_title
+			u.cook_price,
+			u.restaurant_name
 		FROM
-			user_list u
-		LEFT JOIN user_group g ON g.id = u.user_group_id
-		ORDER BY
+			cook_list u
+		order by
 			u.raw_add_time DESC
 		LIMIT ?,?
 		";
@@ -141,16 +114,24 @@ class model_user extends base_model {
 
 	private function get_list_count_action($modelData) {
 		$sql = "
-		select count(*) from user_list
+		select count(*) from cook_list
 		";
 		$rs = self::$db -> query($sql) -> fetchColumn();
 		return $rs * 1;
 	}
 
-	public static function main() {
-		if (self::$own == NULL)
-			self::$own = new self;
-		return self::$own;
+	public static function get_top_list() {
+		self::main();
+		return self::$own -> get_top_list_action();
+	}
+
+	private function get_top_list_action() {
+		$sql = "
+		select cook_name,cook_price,id from cook_list order by raw_add_time desc
+		";
+
+		$return = self::$db -> query($sql) -> fetchAll();
+		return $return;
 	}
 
 }

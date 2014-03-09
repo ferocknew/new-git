@@ -15,4 +15,8 @@ class base_model {
 		return $return;
 	}
 
+	public function make_sn($num, $numLength = 1) {
+		return substr(((pow(10, $numLength) + $num) . ''), 1);
+	}
+
 }

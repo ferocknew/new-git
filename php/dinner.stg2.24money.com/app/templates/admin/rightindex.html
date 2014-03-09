@@ -23,7 +23,7 @@
 							<tr class="tr1 vt">
 								<td class="td1">点餐选择</td>
 								<td class="td2">
-									<select class="easyui-combobox" name="state" style="width:200px;" data-options="panelHeight: 'auto'">
+									<select class="easyui-combobox" name="cook_id" id="cook_id" style="width:200px;" data-options="panelHeight: 'auto',url:'./index.php?at=food&st=get_top_list&code=json',valueField:'id',textField:'text'">
 										<option value="0">请选择...</option>
 									</select>
 								</td>
@@ -46,6 +46,13 @@
 <script type="text/javascript">
 	$(function() {
 		$("a", $("#submit")).click(function() {
+			var _cookID=$("#cook_id").combobox('getValue');
+			if(_cookID*1==0){
+				alert('请选择你餐点！');
+				return false;
+			}
+			
+			
 			var _o = $(this).linkbutton('options');
 			if (!_o.disabled) {
 				$("#websit_config").submit();

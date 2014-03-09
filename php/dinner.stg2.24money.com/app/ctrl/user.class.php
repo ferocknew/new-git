@@ -16,6 +16,9 @@ class ctrl_user extends base_ctrl {
 		$userFullName = trim($_POST['user_full_name']);
 		$user_group_id = $_POST['user_group'] * 1;
 
+		if (empty($user_name))
+			exit('user_name err!');
+
 		$userID = empty($_POST['user_id']) ? 0 : trim($_POST['user_id']) * 1;
 
 		// 编辑用户
@@ -45,7 +48,7 @@ class ctrl_user extends base_ctrl {
 	 * 检查用户
 	 */
 	public static function check_user() {
-		print_r($_SESSION);
+		// print_r($_SESSION);
 		if (empty($_SESSION['user_name'])) {
 			self::login_html();
 		} else {
@@ -129,6 +132,16 @@ class ctrl_user extends base_ctrl {
 		if ($user_name == SUPER_ADMIN_USER_NAME && $user_password == SUPER_ADMIN_PASSWORD) {
 			$_SESSION['user_name'] = SUPER_ADMIN_USER_NAME;
 			$_SESSION['user_id'] = -1;
+			$_SESSION['login_time'] = date('Y-m-d H:i:s');
+
+			header("Location: ./index.php?at=admin");
+			exit ;
+		}
+
+		$userInfo = model_user::check_login($user_name, $user_password);
+		if ($userInfo != FALSE) {
+			$_SESSION['user_name'] = $userInfo['user_name'];
+			$_SESSION['user_id'] = $userInfo['user_id'];
 			$_SESSION['login_time'] = date('Y-m-d H:i:s');
 
 			header("Location: ./index.php?at=admin");

@@ -1,0 +1,80 @@
+{include file="admin/public/page_head.html"}
+<div class="easyui-tabs" data-options="fit:true,border:false">
+	<div title="{$html_title}" style="padding:20px;overflow:auto;">
+		<div style="margin-top:5px;">
+			<div id="stypestate" style="">
+				<h2 class="h1">{$top_1_title}</h2>
+				<div class="admin_table mb10">
+					<table id="user_list_dataTable"></table>
+				</div>
+
+				<p />
+				请选择列表，然后再操作。
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display: none">
+	<div id="tb" style="padding:5px;height:auto">
+		<div style="margin-bottom:5px">
+			<a href="./index.php?at=food&st=add_html" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加菜单</a>
+			<a href="#" class="easyui-linkbutton" id="edit_user_action" iconCls="icon-edit" plain="true">编辑选中菜单</a>
+			<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除菜单</a>
+		</div>
+		<div>
+			用户名:
+			<input class="easyui-validatebox" name="user_name" data-options="validType:'length[1,10]'">
+			<a href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>
+		</div>
+	</div>
+</div>
+{literal}
+<script type="text/javascript">
+	$(function() {
+		$('#user_list_dataTable').datagrid({
+			url : './index.php?at=food&st=get_list&code=json',
+			singleSelect : 1,
+			collapsible : 0,
+			pagination : 1,
+			pageSize : 20,
+			toolbar : '#tb',
+			remoteSort : false,
+			columns : [[{
+				field : 'id',
+				title : '编号',
+				width : 60
+			}, {
+				field : 'cook_name',
+				title : '名称',
+				width : 120,
+				sortable : 1
+			}, {
+				field : 'restaurant_name',
+				title : '所属餐馆',
+				width : 120,
+				sortable : 1
+			}, {
+				field : 'cook_price',
+				title : '价格',
+				width : 80
+			}, {
+				field : 'raw_add_time',
+				title : '添加时间',
+				width : 160
+			}]]
+		});
+
+		$("#edit_user_action").click(function() {
+			var _data = $('#user_list_dataTable').datagrid('getSelections');
+			if (_data.length == 0) {
+				alert('请先选择需要操作的数据！');
+				return false;
+			}
+
+			window.location.href = './index.php?at=user&st=edit&id=' + _data[0].id;
+			return false;
+		});
+	})
+</script>
+{/literal}
+{include file="admin/public/page_foot.html"}
